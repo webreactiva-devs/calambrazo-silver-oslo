@@ -29,7 +29,16 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+        ]);
+
+        $validated['user_id'] = auth()->id();
+
+        Feedback::create($validated);
+
+        return redirect()->route('home');
     }
 
     /**

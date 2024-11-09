@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [FeedbackController::class, 'index'])->name('home');
 
+Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

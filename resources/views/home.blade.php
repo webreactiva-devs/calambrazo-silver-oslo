@@ -76,11 +76,51 @@
                         @endif
                     </header>
 
-                    <main class="mt-6 w-[650px] m-auto">
+                    <main class="max-w-2xl m-auto mt-6">
+
+                        @auth    
+                            <div class="mb-4">
+                                <h1 class="mb-10 text-5xl font-bold text-black">Añade un nuevo Feedback</h1>
+                                <form action="{{ route('feedback.store') }}" method="POST" class="space-y-4">
+                                    @csrf <!-- Token de seguridad para formularios en Laravel -->
+                                    
+                                    <!-- Campo para el título -->
+                                    <div>
+                                        <label for="title" class="block text-sm font-medium text-gray-700">
+                                            {{ __('Título del Feedback') }}
+                                            <input type="text" name="title" id="title" 
+                                            class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                            placeholder="Enter the title" required>
+                                        </label>
+                                    </div>
+                                    
+                                    <!-- Campo para la descripción -->
+                                    <div>
+                                        <label for="description" class="block text-sm font-medium text-gray-700">
+                                            {{ __('Descripción del Feedback') }}
+                                            <textarea name="description" id="description" rows="4"
+                                            class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                            placeholder="Enter the description" required></textarea>
+                                        </label>
+                                    </div>
+                                    
+                                    <!-- Botón de envío -->
+                                    <div class="flex justify-end">
+                                        <button type="submit" 
+                                        class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                        {{ __('Publicar Feedback') }}
+                                    </button>
+                                </div>
+                            </form>
+                            
+                        </div>
+                    @endauth
+
 
                         <div class="flex flex-col gap-2">
+                            <h1 class="mb-10 text-5xl font-bold text-black">Feedbacks</h1>
                             @foreach ($feedback as $feed)
-                                <div class="flex items-start gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10">
+                                <div class="flex flex-col items-start gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10">
                                     <div class="pt-3 sm:pt-5">
                                         <h2 class="text-xl font-semibold text-black">
                                             {{ $feed->title }}
@@ -90,6 +130,16 @@
                                             {{ $feed->description }}
                                         </p>
                                     </div>
+
+                                        <form action="{{-- route('vote.store', ['itemId' => $item->id]) --}}" method="POST" class="flex justify-end w-full mt-4">
+                                            @csrf
+                                            <button 
+                                                type="submit" 
+                                                class="px-4 py-2 font-semibold text-white transition duration-200 bg-indigo-600 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                                            >
+                                                {{ __('Votar') }}
+                                            </button>
+                                        </form>
                                 </div>
                             @endforeach
                         </div>
