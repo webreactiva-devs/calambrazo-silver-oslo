@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Feedback;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+
 
 class FeedbackController extends Controller
 {
@@ -12,7 +14,7 @@ class FeedbackController extends Controller
      */
     public function index()
     {
-        $feedback = Feedback::latest()->paginate(5);
+        $feedback = Feedback::latest()->withCount('votes')->paginate(5);
         return view("home", data: compact("feedback"));
     }
 
@@ -38,7 +40,7 @@ class FeedbackController extends Controller
 
         Feedback::create($validated);
 
-        return redirect()->route('home');
+        return redirect()->back()->with('success', 'Feedback creado con éxito');
     }
 
     /**
@@ -54,7 +56,7 @@ class FeedbackController extends Controller
      */
     public function edit(Feedback $feedback)
     {
-        //
+        return view('feedback.edit', compact('feedback'));
     }
 
     /**
@@ -62,7 +64,12 @@ class FeedbackController extends Controller
      */
     public function update(Request $request, Feedback $feedback)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+        ]);
+        $feedback->update($validated);
+        return redirect()->route('home');
     }
 
     /**
@@ -70,6 +77,10 @@ class FeedbackController extends Controller
      */
     public function destroy(Feedback $feedback)
     {
-        //
+       Gate::authorize('delete', $feedback);
+
+        $feedback->delete();
+
+        return back();
     }
 }

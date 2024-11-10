@@ -121,7 +121,18 @@
                             <h1 class="mb-10 text-5xl font-bold text-black">Feedbacks</h1>
                             @foreach ($feedback as $feed)
                                 <div class="flex flex-col items-start gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10">
-                                    <div class="pt-3 sm:pt-5">
+                                    <div class="w-full pt-0">
+                                        @canany(['delete','update'], $feed)
+                                        <div class="flex items-center justify-end gap-x-2">
+                                            <a href="{{ route('feedback.edit', $feed->id) }}" class="my-0 text-sm text-indigo-500 hover:underline hover:underline-offset-2">Editar</a>
+                                            <form action="{{ route('feedback.destroy', $feed->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="my-0 text-sm text-red-500 hover:underline hover:underline-offset-2">Eliminar</button>
+                                            </form>
+                                        </div>
+                                        @endcanany
+                                        
                                         <h2 class="text-xl font-semibold text-black">
                                             {{ $feed->title }}
                                         </h2>
@@ -130,16 +141,22 @@
                                             {{ $feed->description }}
                                         </p>
                                     </div>
+                                    <div class="flex flex-row items-end justify-end w-full gap-x-4">
+                                        <div class="flex flex-row">
+                                            <p><span class="font-semibold">{{ $feed->votes_count }}</span> votos</p>
+                                        </div>
 
-                                        <form action="{{-- route('vote.store', ['itemId' => $item->id]) --}}" method="POST" class="flex justify-end w-full mt-4">
+                                        <form action="{{ route( 'vote.store', $feed->id ) }}" method="POST" class="flex justify-end mt-4">
                                             @csrf
+                                            
                                             <button 
-                                                type="submit" 
-                                                class="px-4 py-2 font-semibold text-white transition duration-200 bg-indigo-600 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                                            type="submit" 
+                                            class="px-4 py-2 font-semibold text-white transition duration-200 bg-indigo-600 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600"
                                             >
-                                                {{ __('Votar') }}
-                                            </button>
-                                        </form>
+                                            {{ __('Votar') }}
+                                        </button>
+                                    </form>
+                                    </div >
                                 </div>
                             @endforeach
                         </div>
