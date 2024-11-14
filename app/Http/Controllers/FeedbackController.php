@@ -14,7 +14,7 @@ class FeedbackController extends Controller
      */
     public function index()
     {
-        $feedback = Feedback::latest()->withCount('votes')->paginate(5);
+        $feedback = Feedback::latest()->withCount('votes')->simplePaginate(5);
         return view("home", data: compact("feedback"));
     }
 
