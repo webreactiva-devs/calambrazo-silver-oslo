@@ -14,9 +14,9 @@ class VoteController extends Controller
      */
     public function store(Request $request, $id)
     {
-        $cookieName = 'votes';
+        $cookieVotes = env('COOKIE_VOTES', 'votes');
         
-        $votedFeedback = json_decode($request->cookie($cookieName, '[]'), true);
+        $votedFeedback = json_decode($request->cookie($cookieVotes, '[]'), true);
 
         if (in_array($id, $votedFeedback)) {
             return redirect()->back()->with('error', 'Ya has votado por este feedback');
@@ -24,7 +24,7 @@ class VoteController extends Controller
 
         $votedFeedback[] = $id;
         
-        $cookie = Cookie::make($cookieName, json_encode($votedFeedback), 60 * 24 * 365); // 1 año de duración
+        $cookie = Cookie::make($cookieVotes, json_encode($votedFeedback), 60 * 24 * 365); // 1 año de duración
         
         Vote::create([
             'feedback_id' => $id,
