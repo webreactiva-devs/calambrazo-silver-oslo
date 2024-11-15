@@ -28,9 +28,10 @@ class FeedbackController extends Controller
             'description' => 'required|string',
         ]);
 
-        $validated['user_id'] = auth()->id();
-
-        Feedback::create($validated);
+        Feedback::create(array_merge(
+            $validated, 
+            ['user_id' => auth()->id()]
+        ));
 
         return redirect()->back()->with('success', 'Feedback creado con éxito');
     }
