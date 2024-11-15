@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('votes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('feedback_id')->constrained()->onDelete('cascade');
+
+            $table->foreignId('feedback_id')->constrained('feedbacks')->onDelete('cascade');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
 
