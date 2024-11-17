@@ -33,7 +33,7 @@ class FeedbackController extends Controller
             ['user_id' => auth()->id()]
         ));
 
-        return redirect()->back()->with('success', 'Feedback creado con éxito');
+        return redirect()->back()->with('success', __('messages.feedback_create_success'));
     }
 
     /**
@@ -54,7 +54,7 @@ class FeedbackController extends Controller
             'description' => 'required|string',
         ]);
         $feedback->update($validated);
-        return redirect()->route('home');
+        return redirect()->route('home')->with('success',__('messages.feedback_update_success'));
     }
 
     /**
@@ -66,6 +66,6 @@ class FeedbackController extends Controller
 
         $feedback->delete();
 
-        return back();
+        return back()->with('success', __('messages.feedback_delete_success'));
     }
 }

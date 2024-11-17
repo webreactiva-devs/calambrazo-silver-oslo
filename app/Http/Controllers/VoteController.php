@@ -19,7 +19,7 @@ class VoteController extends Controller
         $votedFeedback = json_decode($request->cookie($cookieVotes, '[]'), true);
 
         if (in_array($id, $votedFeedback)) {
-            return redirect()->back()->with('error', 'Ya has votado por este feedback');
+            return redirect()->back()->with('error', __('messages.vote_error'));
         }
 
         $votedFeedback[] = $id;
@@ -31,7 +31,7 @@ class VoteController extends Controller
             'user_id' => Auth::id(),
         ]);
 
-        return redirect()->back()->with('success', 'Voto registrado con éxito')->withCookie($cookie);
+        return redirect()->back()->with('success', __('messages.vote_success'))->withCookie($cookie);
 
     }
 }

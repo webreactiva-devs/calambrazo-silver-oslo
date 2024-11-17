@@ -78,6 +78,19 @@
 
                     <main class="max-w-2xl m-auto mt-6">
 
+                    <div class="mb-10">
+                        @if (session('success'))
+                            <div class="p-4 text-white bg-green-500 rounded-lg">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        @if (session('error'))
+                            <div class="p-4 text-white bg-red-500 rounded-lg">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+                    </div>
+
                         @auth    
                             <div class="mb-4">
                                 <h1 class="mb-10 text-5xl font-bold text-black">Añade un nuevo Feedback</h1>
@@ -89,9 +102,12 @@
                                         <label for="title" class="block text-sm font-medium text-gray-700">
                                             {{ __('Título del Feedback') }}
                                             <input type="text" name="title" id="title" 
-                                            class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                            placeholder="Enter the title" required>
+                                            class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('title') border-red-500 @enderror"
+                                            placeholder="Escribe un título"  value="{{ old('title') }}" required>
                                         </label>
+                                            @error('title')
+                                                <p class="text-sm text-red-600">{{ $message }}</p>
+                                            @enderror
                                     </div>
                                     
                                     <!-- Campo para la descripción -->
@@ -99,9 +115,12 @@
                                         <label for="description" class="block text-sm font-medium text-gray-700">
                                             {{ __('Descripción del Feedback') }}
                                             <textarea name="description" id="description" rows="4"
-                                            class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                            placeholder="Enter the description" required></textarea>
+                                            class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('description') border-red-500 @enderror"
+                                            placeholder="Escribe una descripción" required>{{ old('description') }}</textarea>
                                         </label>
+                                            @error('description')
+                                                <p class="text-sm text-red-600">{{ $message }}</p>
+                                            @enderror
                                     </div>
                                     
                                     <!-- Botón de envío -->
@@ -116,7 +135,6 @@
                         </div>
                     @endauth
 
-
                         <div class="flex flex-col gap-2">
                             <h1 class="mb-10 text-5xl font-bold text-black">Feedbacks</h1>
                             @foreach ($feedback as $feed)
@@ -125,7 +143,7 @@
                                         @canany(['delete','update'], $feed)
                                         <div class="flex items-center justify-end gap-x-2">
                                             <a href="{{ route('feedback.edit', $feed->id) }}" class="my-0 text-sm text-indigo-500 hover:underline hover:underline-offset-2">Editar</a>
-                                            <form action="{{ route('feedback.destroy', $feed->id) }}" method="POST">
+                                            <form action="{{ route('feedback.destroy', $feed->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este feedback?')">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="my-0 text-sm text-red-500 hover:underline hover:underline-offset-2">Eliminar</button>
