@@ -9,6 +9,7 @@ class Vote extends Model
     protected $fillable = [
         'feedback_id',
         'user_id',
+        'ip_address',
     ];
 
     public function feedbacks()
