@@ -10,6 +10,7 @@ class Vote extends Model
         'feedback_id',
         'user_id',
         'ip_address',
+        'device',
     ];
 
     public function feedbacks()
