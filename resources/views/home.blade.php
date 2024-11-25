@@ -91,6 +91,8 @@
 
                     <form action="{{ route( 'vote.store', $feed->id ) }}" method="POST" class="flex justify-end mt-4">
                         @csrf
+
+                        <input type="hidden" name="fingerprint">
                         
                         <button 
                         type="submit" 
@@ -108,3 +110,18 @@
     </div>
 @endsection
 
+@section('js')
+<script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    const fp = await FingerprintJS.load();
+    const result = await fp.get();
+    const fingerprint = result.visitorId;
+
+    // Buscar todos los campos ocultos de fingerprint en los formularios
+    document.querySelectorAll('input[name="fingerprint"]').forEach(input => {
+      input.value = fingerprint;
+    });
+  });
+</script>
+@endsection
