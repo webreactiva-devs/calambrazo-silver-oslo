@@ -82,5 +82,6 @@
         <footer class="py-16 text-sm text-center text-black">
             FeedApp, conoce el feedback de tu comunidad - Hecho con amor por un Malandriner &#129505;
         </footer>
+        @yield('js')
     </body>
 </html>
