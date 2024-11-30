@@ -91,6 +91,8 @@
 
                     <form action="{{ route( 'vote.store', $feed->id ) }}" method="POST" class="flex justify-end mt-4">
                         @csrf
+
+                        <input type="hidden" name="fingerprint">
                         
                         <button 
                         type="submit" 
@@ -107,4 +109,3 @@
         {{ $feedback->links() }}
     </div>
 @endsection
-
