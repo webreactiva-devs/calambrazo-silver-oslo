@@ -23,7 +23,6 @@ class VoteController extends Controller
         VoteFingerprintService $voteFingerprintService
         )
         {
-        // Obtenemos el dispositivo e IP del usuario y el fingerprint.
         $device = $voteDeviceService->detectDevice();
         $ip = $request->ip();
         $fingerprint = $request->input('fingerprint');
@@ -46,7 +45,6 @@ class VoteController extends Controller
         }
 
         // 3.FINGERPRINT. Comprobamos si ya ha votado con este fingerprint.
-        // Verificar si ya votó con fingerprint
         if ($voteFingerprintService->hasVotedWithFingerprint($fingerprint, $id)) {
             return redirect()->back()->with('error', __('messages.fingerprint_vote_error'));
         }

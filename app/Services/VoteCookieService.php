@@ -11,8 +11,6 @@ class VoteCookieService
 
     public function __construct()
     {
-        // Se obtiene el nombre de la cookie desde .env
-        // en caso de no existir se asigna el valor por defecto votes.
         $this->cookieName = config('app.cookie_name');
     }
 

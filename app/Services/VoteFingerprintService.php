@@ -7,7 +7,7 @@ use App\Models\Vote;
 class VoteFingerprintService
 {
     /**
-     * Verificar si el fingerprint ya ha votado para un ítem específico.
+     * Check if a fingerprint has already registered a vote.
      *
      * @param string $fingerprint
      * @param int $feedbackId

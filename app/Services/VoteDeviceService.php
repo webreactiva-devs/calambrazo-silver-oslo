@@ -15,7 +15,7 @@ class VoteDeviceService
     }
 
     /**
-     * Detecta el dispositivo.
+     * Detect the device of the user.
      *
      * @return string
      */
@@ -28,13 +28,13 @@ class VoteDeviceService
     }
 
     /**
-     * Comprobar si un dispositivo ya ha registrado un voto
-     * con una IP y dispositivo determinado.
+     * Check if a device has already registered a vote
+     * with a specific IP and device.
      *
-     * @param string $device
-     * @param string $ip
-     * @param int $feedbackId
-     * @return bool
+     * @param string $device The device identifier.
+     * @param int $feedbackId The feedback identifier.
+     * @param string $ip The IP address of the device.
+     * @return bool True if the device has already voted, false otherwise.
      */
     public function hasVotedWithDevice(string $device, int $feedbackId, string $ip): bool
     {

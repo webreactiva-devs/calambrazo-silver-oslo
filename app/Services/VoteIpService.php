@@ -7,7 +7,7 @@ use App\Models\Vote;
 class VoteIpService
 {
     /**
-     * Comprueba si un feedback ha sido votado desde una IP específica.
+     * Check if a vote has already been registered with a specific IP.
      *
      * @param int $feedbackId
      * @param string $ipAddress
