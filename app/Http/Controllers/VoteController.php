@@ -29,24 +29,30 @@ class VoteController extends Controller
         
         // 0.COOKIE. Extraemos la lógica de la cookie a un servicio.
         if ($voteCookieService->hasVoted($request, $id)) {
-            return redirect()->back()->with('error', __('messages.vote_error'));
+            return redirect()->back()->with([
+                'error' => __('messages.vote_error'),
+                'vote_debug' => 'cookie',
+            ]);
         }
     
         $cookie = $voteCookieService->createVoteCookie($request, $id);
 
         // 1.DISPOSITIVO. Comprobamos a través del servicio si ya ha votado con este dispositivo desde una misma IP.
         if ($voteDeviceService->hasVotedWithDevice($device, $id, $ip)) {
-            return redirect()->back()->with('error', __('messages.device_vote_error'));
+            return redirect()->back()->with('error', __('messages.vote_error'))
+            ->with('vote_debug', 'device');
         }
 
         // 2.IP. Comprobamos a través del servicio si ya ha votado con esta IP.
         if ($voteIpService->hasVotedWithIp($id, $ip)) {
-            return redirect()->back()->with('error', __('messages.ip_vote_error'));
+            return redirect()->back()->with('error', __('messages.vote_error'))
+            ->with('vote_debug', 'ip');
         }
 
         // 3.FINGERPRINT. Comprobamos si ya ha votado con este fingerprint.
         if ($voteFingerprintService->hasVotedWithFingerprint($fingerprint, $id)) {
-            return redirect()->back()->with('error', __('messages.fingerprint_vote_error'));
+            return redirect()->back()->with('error', __('messages.vote_error'))
+            ->with('vote_debug', 'fingerprint');
         }
 
         Vote::create([
