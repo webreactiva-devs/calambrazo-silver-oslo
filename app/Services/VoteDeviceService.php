@@ -4,8 +4,9 @@ namespace App\Services;
 
 use Jenssegers\Agent\Agent;
 use App\Models\Vote;
+use App\Contracts\VoteValidatorInterface;
 
-class VoteDeviceService
+class VoteDeviceService implements VoteValidatorInterface
 {
     protected $agent;
 
@@ -36,8 +37,12 @@ class VoteDeviceService
      * @param string $ip The IP address of the device.
      * @return bool True if the device has already voted, false otherwise.
      */
-    public function hasVotedWithDevice(string $device, int $feedbackId, string $ip): bool
+    public function hasVoted(array $data): bool
     {
+        $device = $data['device'];
+        $feedbackId = $data['feedback_id'];
+        $ip = $data['ip_address'];
+        
         $result = Vote::where('device', $device)
             ->where('ip_address', $ip)
             ->where('feedback_id', $feedbackId)
