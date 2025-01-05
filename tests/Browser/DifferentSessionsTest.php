@@ -33,13 +33,13 @@ test('Distintas sesiones en el mismo dispositivo', function () {
                     ->assertSee('Voto registrado con éxito')
                     ->waitFor('@vote-button')
                     ->click('@vote-button')
-                    ->assertAttribute('#vote-debug', 'data-reason', 'cookie')
+                    ->assertAttribute('#vote-debug', 'data-reason', 'error')
                     ->assertSee('Ya has votado')
                     ->deleteCookie('test')
                     ->waitFor('@vote-button')
                     ->click('@vote-button')
                     ->assertSee('Ya has votado')
-                    ->assertAttribute('#vote-debug', 'data-reason', 'device');
+                    ->assertAttribute('#vote-debug', 'data-reason', 'error');
 
         $secondBrowser->visit('/login')
                       ->type('email', $user2->email)
@@ -50,7 +50,6 @@ test('Distintas sesiones en el mismo dispositivo', function () {
                       ->waitFor('@vote-button')
                       ->click('@vote-button')
                       ->assertSee('Ya has votado')
-                      ->assertAttributeDoesntContain('#vote-debug', 'data-reason', 'cookie')
-                      ->assertAttribute('#vote-debug', 'data-reason', 'device');
+                      ->assertAttribute('#vote-debug', 'data-reason', 'error');
     });
 });

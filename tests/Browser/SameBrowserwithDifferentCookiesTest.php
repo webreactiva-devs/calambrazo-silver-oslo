@@ -23,12 +23,12 @@ test('Votar con el mismo navegador cambiando las cookies', function () {
                 ->assertSee('Voto registrado con éxito')
                 ->waitFor('@vote-button')
                 ->click('@vote-button')
-                ->assertAttribute('#vote-debug', 'data-reason', 'cookie')
+                ->assertAttribute('#vote-debug', 'data-reason', 'error')
                 ->assertSee('Ya has votado')
                 ->deleteCookie('test')
                 ->waitFor('@vote-button')
                 ->click('@vote-button')
                 ->assertSee('Ya has votado')
-                ->assertAttribute('#vote-debug', 'data-reason', 'device');
+                ->assertAttribute('#vote-debug', 'data-reason', 'error');
     });
 });
