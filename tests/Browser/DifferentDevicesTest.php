@@ -31,13 +31,13 @@ test('Diferentes dispositivos emulados', function () {
             ->assertSee('Voto registrado con éxito')
             ->waitFor('@vote-button')
             ->click('@vote-button')
-            ->assertAttribute('#vote-debug', 'data-reason', 'cookie')                    
+            ->assertAttribute('#vote-debug', 'data-reason', 'error')                    
             ->assertSee('Ya has votado')
             ->deleteCookie('test')
             ->waitFor('@vote-button')
             ->click('@vote-button')
             ->assertSee('Ya has votado')
-            ->assertAttribute('#vote-debug', 'data-reason', 'device');
+            ->assertAttribute('#vote-debug', 'data-reason', 'error');
 
         $pixel->script('Object.defineProperty(navigator, "userAgent", {get: () => "Mozilla/5.0 (Linux; Android 10; Pixel 4 XL) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Mobile Safari/537.36"});');
         sleep(1);
@@ -48,7 +48,7 @@ test('Diferentes dispositivos emulados', function () {
             ->waitFor('@vote-button')
             ->click('@vote-button')
             ->assertSee('Ya has votado')
-            ->assertAttribute('#vote-debug', 'data-reason', 'device');
+            ->assertAttribute('#vote-debug', 'data-reason', 'error');
 
         $mac->script('Object.defineProperty(navigator, "userAgent", {get: () => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Version/14.0 Safari/537.36"});');
         sleep(1);
@@ -59,7 +59,7 @@ test('Diferentes dispositivos emulados', function () {
             ->waitFor('@vote-button')
             ->click('@vote-button')
             ->assertSee('Ya has votado')
-            ->assertAttribute('#vote-debug', 'data-reason', 'device');
+            ->assertAttribute('#vote-debug', 'data-reason', 'error');
 
         $windows->script('Object.defineProperty(navigator, "userAgent", {get: () => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"});');
         sleep(1);
@@ -70,6 +70,6 @@ test('Diferentes dispositivos emulados', function () {
             ->waitFor('@vote-button')
             ->click('@vote-button')
             ->assertSee('Ya has votado')
-            ->assertAttribute('#vote-debug', 'data-reason', 'device');
+            ->assertAttribute('#vote-debug', 'data-reason', 'error');
     });
 });

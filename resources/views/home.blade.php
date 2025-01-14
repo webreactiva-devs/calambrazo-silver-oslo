@@ -13,8 +13,8 @@
         <div class="p-4 text-white bg-red-500 rounded-lg">
             {{ session('error') }}
         </div>
-        @if(app()->environment('testing') && session('vote_debug'))
-            <div id="vote-debug" data-reason="{{ session('vote_debug') }}"></div>
+        @if(app()->environment('testing') && session('vote-debug'))
+            <div id="vote-debug" data-reason="{{ session('vote-debug') }}"></div>
         @endif
     @endif
 </div>
